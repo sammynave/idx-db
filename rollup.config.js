@@ -6,7 +6,7 @@ export default [
   {
     input: "src/index.js",
     output: {
-      name: "idx-db",
+      name: "idxDb",
       file: pkg.browser,
       format: "umd",
     },
@@ -16,10 +16,10 @@ export default [
   {
     input: "src/index.js",
     external: [],
-    output: {
-      file: pkg.module,
-      format: "es",
-    },
+    output: [
+      { file: pkg.module, format: "es" },
+      { file: pkg.main, format: "cjs" },
+    ],
     plugins: [resolve(), commonjs()],
   },
 ];

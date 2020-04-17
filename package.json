@@ -4,7 +4,8 @@
   "description": "a wrapper for indexedDB",
   "author": "sammy.nave@gmail.com",
   "license": "MIT",
-  "module": "dist/idx-db.es.js",
+  "main": "dist/idx-db.cjs.js",
+  "module": "dist/idx-db.esm.js",
   "browser": "dist/idx-db.umd.js",
   "devDependencies": {
     "npm-run-all": "latest",
