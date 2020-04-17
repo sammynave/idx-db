@@ -1,11 +1,11 @@
 {
-  "name": "local-db",
+  "name": "simple-indexeddb.js",
   "version": "0.0.0",
   "description": "a wrapper for indexedDB",
   "main": "index.js",
   "author": "sammy.nave@gmail.com",
   "license": "MIT",
-  "module": "dist/local-db.es.js",
+  "module": "dist/simple-indexeddb.es.js",
   "devDependencies": {
     "npm-run-all": "latest",
     "rollup": "^2.6.1",
