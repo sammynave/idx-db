@@ -1,11 +1,11 @@
 {
-  "name": "rollup-libkit",
+  "name": "local-db",
   "version": "0.0.0",
-  "description": "starter template for a rollup library",
+  "description": "a wrapper for indexedDB",
   "main": "index.js",
   "author": "sammy.nave@gmail.com",
   "license": "MIT",
-  "module": "dist/rollup-libkit.es.js",
+  "module": "dist/local-db.es.js",
   "devDependencies": {
     "npm-run-all": "latest",
     "rollup": "^2.6.1",
