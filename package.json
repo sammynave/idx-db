@@ -23,5 +23,8 @@
     "test": "node test/test.js",
     "pretest": "yarn run build",
     "prepublishOnly": "yarn run build"
-  }
+  },
+  "files": [
+    "dist"
+  ]
 }
