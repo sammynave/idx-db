@@ -2,7 +2,7 @@
   "name": "idx-db",
   "version": "0.0.1",
   "description": "a wrapper for indexedDB",
-  "main": "index.js",
+  "main": "idx-db.es.js",
   "author": "sammy.nave@gmail.com",
   "license": "MIT",
   "module": "dist/idx-db.es.js",
