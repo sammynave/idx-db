@@ -5,8 +5,7 @@
   "author": "sammy.nave@gmail.com",
   "license": "MIT",
   "module": "dist/idx-db.es.js",
-  "main": "dist/idx-db.es.js",
-  "browser": "dist/idx-db.es.js",
+  "browser": "dist/idx-db.umd.js",
   "devDependencies": {
     "npm-run-all": "latest",
     "rollup": "^2.6.1",
