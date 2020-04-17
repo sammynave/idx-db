@@ -1,20 +1,26 @@
 import { defer } from "../../async-utils";
 
-export function equals(db, storeName, key) {
+// supports strings only
+export function contains(db, storeName, key) {
   return function (value) {
+    if (typeof value !== "string") {
+      throw new Error("`.contains` currently only works with strings");
+    }
     const { promise, resolve, reject } = defer("find");
     const transaction = db.transaction(storeName, "readonly");
     const store = transaction.objectStore(storeName);
     const index = store.index(key);
-    const range = IDBKeyRange.only(value);
 
     const results = [];
-    const request = index.openCursor(range);
+    const request = index.openCursor();
+
     request.onsuccess = function (event) {
       const cursor = event.target.result;
 
       if (cursor) {
-        results.push(cursor.value);
+        if (cursor.value[key].indexOf(value) !== -1) {
+          results.push(cursor.value);
+        }
         cursor.continue();
       } else {
         resolve(results);

@@ -1,4 +1,7 @@
-import { equals, doesNotEqual } from "./filter-operators/equals";
+import { equals } from "./filter-operators/equals";
+import { contains } from "./filter-operators/contains";
+
+import { doesNotEqual } from "./filter-operators/does-not-equal";
 
 export function where(db, storeName) {
   return function (key) {
@@ -7,7 +10,7 @@ export function where(db, storeName) {
       not: {
         equals: doesNotEqual(db, storeName, key),
       },
-      contains: () => new Promise((r) => r("not implemented yet")),
+      contains: contains(db, storeName, key),
     };
   };
 }

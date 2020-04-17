@@ -137,6 +137,17 @@ async function init() {
   } catch (e) {
     console.log("successfully threw error", e);
   }
+
+  const containsTodos = await db.stores.todos.where("title").contains("m");
+  console.log("contains", containsTodos);
+
+  try {
+    const containsTodosError = await db.stores.todos
+      .where("number")
+      .contains(1);
+  } catch (e) {
+    console.log("successfuly threw error", e);
+  }
 }
 
 init();
