@@ -1,6 +1,6 @@
 {
   "name": "idx-db",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "a wrapper for indexedDB",
   "main": "idx-db.es.js",
   "author": "sammy.nave@gmail.com",
