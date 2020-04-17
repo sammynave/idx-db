@@ -30,54 +30,84 @@ export function equals(db, storeName, key) {
   };
 }
 
+const LOWEST_CHAR = String.fromCharCode(0);
+const HIGHEST_CHAR = String.fromCharCode(65535);
+const LOWEST_NUM = -Infinity;
+const HIGHEST_NUM = Infinity;
+
 export function doesNotEqual(db, storeName, key) {
   return function (value) {
-    const { promise, resolve, reject } = defer("find");
+    // maybe add support for other valid values?
+    // boolean, number, string, date, object, array, regexp, undefined and null
+
+    if (!(typeof value === "string" || typeof value === "number")) {
+      throw new Error("Only string or number indexes are supported");
+    }
+    const {
+      promise: lowerPromise,
+      resolve: lowerResolve,
+      reject: lowerReject,
+    } = defer("lower");
+    const {
+      promise: upperPromise,
+      resolve: upperResolve,
+      reject: upperReject,
+    } = defer("upper");
+
     const transaction = db.transaction(storeName, "readonly");
     const store = transaction.objectStore(storeName);
     const index = store.index(key);
-    const getRequest = store.get();
-    getRequest.onsuccess = function (event) {
-      const first = event.target.result;
-      const lastRequest = index.openCursor(null, "prev");
-      lastRequest.onsuccess = function (event) {
-        if (event.target.result) {
-          const last = event.target.result.value; //the object with max revision
-          const range = IDBKeyRange.bound(
-            [firstResult[key], value],
-            [value, last[key]],
-            true,
-            true
-          );
 
-          const results = [];
-          const request = index.openCursor(range);
-          request.onsuccess = function (event) {
-            const cursor = event.target.result;
+    const lowerRange = IDBKeyRange.bound(
+      typeof value === "number" ? LOWEST_NUM : LOWEST_CHAR,
+      value,
+      false,
+      true
+    );
 
-            if (cursor) {
-              results.push(cursor.value);
-              cursor.continue();
-            } else {
-              resolve(results);
-            }
-          };
+    const results = [];
+    const lowerRequest = index.openCursor(lowerRange);
+    lowerRequest.onsuccess = function (event) {
+      const cursor = event.target.result;
 
-          request.onerror = function (event) {
-            console.error(`where not equals to ${storeName} error`, event);
-            reject(event);
-          };
-        }
-      };
-
-      lastRequest.onerror = function (event) {
-        console.error(
-          `where not equals (last result) to ${storeName} error`,
-          event
-        );
-        reject(event);
-      };
+      if (cursor) {
+        results.push(cursor.value);
+        cursor.continue();
+      } else {
+        lowerResolve(results);
+      }
     };
-    return promise;
+
+    lowerRequest.onerror = function (event) {
+      console.error(`where not equals to ${storeName} error`, event);
+      lowerReject(event);
+    };
+
+    const upperRange = IDBKeyRange.bound(
+      value,
+      typeof value === "number" ? HIGHEST_NUM : HIGHEST_CHAR,
+      true,
+      false
+    );
+    const upperRequest = index.openCursor(upperRange);
+    upperRequest.onsuccess = function (event) {
+      const cursor = event.target.result;
+
+      if (cursor) {
+        results.push(cursor.value);
+        cursor.continue();
+      } else {
+        upperResolve(results);
+      }
+    };
+
+    upperRequest.onerror = function (event) {
+      console.error(`where not equals to ${storeName} error`, event);
+      upperReject(event);
+    };
+
+    return Promise.all([lowerPromise, upperPromise]).then(([r1, r2]) =>
+      r1.concat(r2)
+    );
   };
 }

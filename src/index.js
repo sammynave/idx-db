@@ -62,6 +62,9 @@ export async function openDb({ name, structure, newVersionCallback }) {
     });
 
     useNewDatabase(db);
+    db.onabort = (event) => {
+      console.error(event.target.error);
+    };
   };
 
   request.onerror = (event) => {

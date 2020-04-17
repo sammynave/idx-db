@@ -68,6 +68,15 @@ const structure = [
       store.createIndex("trd", "trd", { unique: false });
     },
   },
+  {
+    version: 8,
+    migration(event) {
+      const transaction = event.target.transaction;
+      const store = transaction.objectStore("todos");
+      // TODO how do you backfill?
+      store.createIndex("number", "number", { unique: false });
+    },
+  },
 ];
 
 async function init() {
@@ -109,10 +118,25 @@ async function init() {
   console.log("add", todo4);
   const whereTodos = await db.stores.todos.where("title").equals("same name");
   console.log("where.equals", whereTodos);
+
+  await db.stores.todos.add({ title: "num", done: false, number: 0 });
+  await db.stores.todos.add({ title: "num", done: false, number: 1 });
+  await db.stores.todos.add({ title: "num", done: false, number: 2 });
+
   const whereNotTodos = await db.stores.todos
     .where("title")
     .not.equals("same name");
-  console.log("where.not.equals", whereNotTodos);
+  console.log("where.not.equals string", whereNotTodos);
+
+  const whereNotTodosNum = await db.stores.todos.where("number").not.equals(1);
+  console.log("where.not.equals number", whereNotTodosNum);
+
+  // Try with bad query type
+  try {
+    await db.stores.todos.where("number").not.equals({ id: "hi" });
+  } catch (e) {
+    console.log("successfully threw error", e);
+  }
 }
 
 init();
