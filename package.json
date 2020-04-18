@@ -1,11 +1,11 @@
 {
   "name": "idx-db.js",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "a wrapper for indexedDB",
   "author": "sammy.nave@gmail.com",
   "license": "MIT",
-  "main": "dist/index",
-  "module": "dist/index.mjs",
+  "main": "index",
+  "module": "index.mjs",
   "devDependencies": {
     "npm-run-all": "latest",
     "rollup": "^2.6.1",
