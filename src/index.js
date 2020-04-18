@@ -1,14 +1,14 @@
-import { defer } from "./async-utils";
-import { findMaxKey, byIdAsc } from "./array-utils";
-import { all as _all } from "./db-methods/all";
-import { add as _add } from "./db-methods/add";
-import { destroy as _destroy } from "./db-methods/destroy";
-import { update as _update } from "./db-methods/update";
-import { find as _find } from "./db-methods/find";
-import { count as _count } from "./db-methods/count";
-import { equals } from "./db-methods/filter-operators/equals";
-import { doesNotEqual } from "./db-methods/filter-operators/does-not-equal";
-import { contains } from "./db-methods/filter-operators/contains";
+import { defer } from "./async-utils.js";
+import { findMaxKey, byIdAsc } from "./array-utils.js";
+import { all as _all } from "./db-methods/all.js";
+import { add as _add } from "./db-methods/add.js";
+import { destroy as _destroy } from "./db-methods/destroy.js";
+import { update as _update } from "./db-methods/update.js";
+import { find as _find } from "./db-methods/find.js";
+import { count as _count } from "./db-methods/count.js";
+import { equals } from "./db-methods/filter-operators/equals.js";
+import { doesNotEqual } from "./db-methods/filter-operators/does-not-equal.js";
+import { contains } from "./db-methods/filter-operators/contains.js";
 
 function wrap(db) {
   const storeNames = [...db.objectStoreNames];

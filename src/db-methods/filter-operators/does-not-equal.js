@@ -1,4 +1,4 @@
-import { defer } from "../../async-utils";
+import { defer } from "../../async-utils.js";
 
 const LOWEST_CHAR = String.fromCharCode(0);
 const HIGHEST_CHAR = String.fromCharCode(65535);

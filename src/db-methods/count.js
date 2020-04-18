@@ -1,4 +1,4 @@
-import { defer } from "../async-utils";
+import { defer } from "../async-utils.js";
 
 export function count(db, storeName) {
   return async function (id) {

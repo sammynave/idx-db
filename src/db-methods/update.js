@@ -1,4 +1,4 @@
-import { defer } from "../async-utils";
+import { defer } from "../async-utils.js";
 
 export function update(db, storeName) {
   return async function (element) {
