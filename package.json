@@ -1,12 +1,11 @@
 {
-  "name": "idx-db",
-  "version": "0.0.6",
+  "name": "idx-db.js",
+  "version": "0.0.4",
   "description": "a wrapper for indexedDB",
   "author": "sammy.nave@gmail.com",
   "license": "MIT",
-  "main": "dist/idx-db.cjs.js",
-  "module": "dist/idx-db.esm.js",
-  "browser": "dist/idx-db.umd.js",
+  "main": "dist/index",
+  "module": "dist/index.mjs",
   "devDependencies": {
     "npm-run-all": "latest",
     "rollup": "^2.6.1",
