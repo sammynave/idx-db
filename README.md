@@ -33,7 +33,8 @@ const db = await openDb("db-name", structure);
 const { todos } = db.stores;
 
 await todos.add(todo); // Todo
-await todos.delete(id); // DeletedTodo
+await todos.count(); // Number
+await todos.destroy(id); // DeletedTodo
 await todos.update(todo); // Todo
 await todos.find(id); // Todo
 await todos.all(); // [Todo]
