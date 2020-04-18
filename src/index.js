@@ -6,6 +6,7 @@ import { destroy } from "./db-methods/destroy";
 import { update } from "./db-methods/update";
 import { find } from "./db-methods/find";
 import { where } from "./db-methods/where";
+import { count } from "./db-methods/count";
 
 function wrap(db) {
   const storeNames = [...db.objectStoreNames];
@@ -17,6 +18,7 @@ function wrap(db) {
       find: find(db, name),
       update: update(db, name),
       where: where(db, name),
+      count: count(db, name),
     };
     return methods;
   }, {});

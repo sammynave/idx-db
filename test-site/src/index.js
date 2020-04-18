@@ -148,6 +148,8 @@ async function init() {
   } catch (e) {
     console.log("successfuly threw error", e);
   }
+  const count = await db.stores.todos.count();
+  console.log("count", count);
 }
 
 init();
