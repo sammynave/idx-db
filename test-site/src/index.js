@@ -1,4 +1,15 @@
-import { openDb } from "../../src/index";
+import {
+  openDb,
+  add,
+  update,
+  all,
+  destroy,
+  find,
+  whereEquals,
+  whereNotEquals,
+  whereContains,
+  count,
+} from "../../src/index";
 
 // could this have a nicer API?
 const structure = [
@@ -92,64 +103,59 @@ async function init() {
   hi.textContent = db ? "db loaded!" : "db failed to load";
   document.body.append(hi);
 
-  const todo = await db.stores.todos.add({ title: "first", done: false });
+  const todo = await add(db, "todos", { title: "first", done: false });
   console.log("add", todo);
-
-  const newTodo = await db.stores.todos.update({ ...todo, done: !todo.done });
+  const newTodo = await update(db, "todos", { ...todo, done: !todo.done });
   console.log("update", newTodo);
 
-  const destroyed = await db.stores.todos.destroy(newTodo);
+  const destroyed = await destroy(db, "todos", newTodo);
   console.log("destroy", destroyed);
 
-  const todo2 = await db.stores.todos.add({ title: "second", done: false });
+  const todo2 = await add(db, "todos", { title: "second", done: false });
   console.log("add", todo2);
 
-  const allTodos = await db.stores.todos.all();
+  const allTodos = await all(db, "todos");
   console.log("all", allTodos);
 
   const [last] = allTodos.slice(-1);
-  const found = await db.stores.todos.find(last.id);
+  const found = await find(db, "todos", last.id);
   console.log("last", last);
   console.log("find", found);
 
-  const todo3 = await db.stores.todos.add({ title: "same name", done: false });
+  const todo3 = await add(db, "todos", { title: "same name", done: false });
   console.log("add", todo3);
-  const todo4 = await db.stores.todos.add({ title: "same name", done: false });
+  const todo4 = await add(db, "todos", { title: "same name", done: false });
   console.log("add", todo4);
-  const whereTodos = await db.stores.todos.where("title").equals("same name");
+  const whereTodos = await whereEquals(db, "todos", "title", "same name");
   console.log("where.equals", whereTodos);
 
-  await db.stores.todos.add({ title: "num", done: false, number: 0 });
-  await db.stores.todos.add({ title: "num", done: false, number: 1 });
-  await db.stores.todos.add({ title: "num", done: false, number: 2 });
+  await add(db, "todos", { title: "num", done: false, number: 0 });
+  await add(db, "todos", { title: "num", done: false, number: 1 });
+  await add(db, "todos", { title: "num", done: false, number: 2 });
 
-  const whereNotTodos = await db.stores.todos
-    .where("title")
-    .not.equals("same name");
+  const whereNotTodos = await whereNotEquals(db, "todos", "title", "same name");
   console.log("where.not.equals string", whereNotTodos);
 
-  const whereNotTodosNum = await db.stores.todos.where("number").not.equals(1);
+  const whereNotTodosNum = await whereNotEquals(db, "todos", "number", 1);
   console.log("where.not.equals number", whereNotTodosNum);
 
   // Try with bad query type
   try {
-    await db.stores.todos.where("number").not.equals({ id: "hi" });
+    await whereNotEquals(db, "todos", "number", { id: "hi" });
   } catch (e) {
     console.log("successfully threw error", e);
   }
 
-  const containsTodos = await db.stores.todos.where("title").contains("m");
+  const containsTodos = await whereContains(db, "todos", "title", "m");
   console.log("contains", containsTodos);
 
   try {
-    const containsTodosError = await db.stores.todos
-      .where("number")
-      .contains(1);
+    const containsTodosError = await whereContains("number", 1);
   } catch (e) {
     console.log("successfuly threw error", e);
   }
-  const count = await db.stores.todos.count();
-  console.log("count", count);
+  const countResults = await count(db, "todos");
+  console.log("count", countResults);
 }
 
 init();

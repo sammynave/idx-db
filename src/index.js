@@ -1,34 +1,33 @@
 import { defer } from "./async-utils";
 import { findMaxKey, byIdAsc } from "./array-utils";
-import { all } from "./db-methods/all";
-import { add } from "./db-methods/add";
-import { destroy } from "./db-methods/destroy";
-import { update } from "./db-methods/update";
-import { find } from "./db-methods/find";
-import { where } from "./db-methods/where";
-import { count } from "./db-methods/count";
+import { all as _all } from "./db-methods/all";
+import { add as _add } from "./db-methods/add";
+import { destroy as _destroy } from "./db-methods/destroy";
+import { update as _update } from "./db-methods/update";
+import { find as _find } from "./db-methods/find";
+import { count as _count } from "./db-methods/count";
+import { equals } from "./db-methods/filter-operators/equals";
+import { doesNotEqual } from "./db-methods/filter-operators/does-not-equal";
+import { contains } from "./db-methods/filter-operators/contains";
 
 function wrap(db) {
   const storeNames = [...db.objectStoreNames];
-  const stores = storeNames.reduce((methods, name) => {
-    methods[name] = {
-      add: add(db, name),
-      all: all(db, name),
-      destroy: destroy(db, name),
-      find: find(db, name),
-      update: update(db, name),
-      where: where(db, name),
-      count: count(db, name),
-    };
-    return methods;
-  }, {});
 
-  return { _db: db, stores };
+  return { _db: db, stores: storeNames };
 }
 
-function unwrap({ _db }) {
-  return _db;
-}
+export const add = (db, name, element) => _add(db._db, name)(element);
+export const all = (db, name, element) => _all(db._db, name)(element);
+export const destroy = (db, name, element) => _destroy(db._db, name)(element);
+export const find = (db, name, element) => _find(db._db, name)(element);
+export const update = (db, name, element) => _update(db._db, name)(element);
+export const whereEquals = (db, name, key, element) =>
+  equals(db._db, name, key)(element);
+export const whereNotEquals = (db, name, key, element) =>
+  doesNotEqual(db._db, name, key)(element);
+export const whereContains = (db, name, key, element) =>
+  contains(db._db, name, key)(element);
+export const count = (db, name, element) => _count(db._db, name)(element);
 
 // openDb({ name: 'app', structure })
 export async function openDb({ name, structure, newVersionCallback }) {
