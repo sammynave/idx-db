@@ -8,8 +8,8 @@ export default [
     input: "src/index.js",
     external: [],
     output: [
-      { file: "index.mjs", format: "esm" },
-      { file: "index.js", format: "cjs" },
+      { file: "es/index.mjs", format: "esm" },
+      { file: "cjs/index.js", format: "cjs" },
     ],
     plugins: [resolve(), commonjs(), sizeSnapshot(), visualizer()],
   },

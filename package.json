@@ -1,13 +1,25 @@
 {
   "name": "idx-db",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "a wrapper for indexedDB",
   "author": "sammy.nave@gmail.com",
   "license": "MIT",
   "type": "module",
-  "main": "index.js",
-  "module": "index.mjs",
+  "main": "./cjs/index.js",
+  "module": "./es/index.mjs",
   "sideEffects": false,
+  "exports": {
+    ".": {
+      "require": "./cjs/index.js",
+      "import": "./es/index.mjs"
+    },
+    "./es/": "./es/",
+    "./cjs/": "./cjs/"
+  },
+  "files": [
+    "cjs",
+    "es"
+  ],
   "devDependencies": {
     "agadoo": "^2.0.0",
     "npm-run-all": "latest",
@@ -19,7 +31,7 @@
     "trash-cli": "^3.0.0"
   },
   "scripts": {
-    "clean": "trash ./index.js ./index.mjs",
+    "clean": "trash ./es ./cjs",
     "build": "yarn run clean && rollup -c",
     "build:watch": "rollup -c -w ",
     "testSite": "cd ./test-site && yarn && yarn dev",
@@ -27,9 +39,5 @@
     "test": "node test/test.js",
     "pretest": "yarn run build",
     "prepublishOnly": "yarn run build && yarn agadoo"
-  },
-  "files": [
-    "index.js",
-    "index.mjs"
-  ]
+  }
 }
