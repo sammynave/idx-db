@@ -1,6 +1,6 @@
 {
   "name": "idx-db",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "a wrapper for indexedDB",
   "author": "sammy.nave@gmail.com",
   "license": "MIT",
@@ -8,10 +8,6 @@
   "main": "./cjs/index.js",
   "module": "./es/index.mjs",
   "sideEffects": false,
-  "files": [
-    "es",
-    "cjs"
-  ],
   "exports": {
     ".": {
       "require": "./cjs/index.js",
@@ -20,6 +16,10 @@
     "./es/": "./es/",
     "./cjs/": "./cjs/"
   },
+  "files": [
+    "cjs",
+    "es"
+  ],
   "devDependencies": {
     "agadoo": "^2.0.0",
     "npm-run-all": "latest",
@@ -35,7 +35,6 @@
     "build": "yarn run clean && rollup -c",
     "build:watch": "rollup -c -w ",
     "testSite": "cd ./test-site && yarn && yarn dev",
-    "testSite:built": "yarn build && cd ./test-site && yarn && yarn dev",
     "dev": "run-s clean && run-p 'build:watch' 'testSite'",
     "test": "node test/test.js",
     "pretest": "yarn run build",
