@@ -1,16 +1,25 @@
 {
   "name": "idx-db",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "description": "a wrapper for indexedDB",
   "author": "sammy.nave@gmail.com",
   "license": "MIT",
   "type": "module",
-  "main": "./es/index",
+  "main": "./cjs/index.js",
   "module": "./es/index.mjs",
   "sideEffects": false,
   "files": [
-    "es"
+    "es",
+    "cjs"
   ],
+  "exports": {
+    ".": {
+      "require": "./cjs/index.js",
+      "import": "./es/index.mjs"
+    },
+    "./es/": "./es/",
+    "./cjs/": "./cjs/"
+  },
   "devDependencies": {
     "agadoo": "^2.0.0",
     "npm-run-all": "latest",
