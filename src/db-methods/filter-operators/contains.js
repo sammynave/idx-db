@@ -1,7 +1,7 @@
 import { defer } from "../../async-utils.js";
 
 // supports strings only
-export function contains(db, storeName, key) {
+function contains(db, storeName, key) {
   return function (value) {
     if (typeof value !== "string") {
       throw new Error("`.contains` currently only works with strings");
@@ -35,3 +35,5 @@ export function contains(db, storeName, key) {
     return promise;
   };
 }
+
+export default (db, name, key, element) => contains(db._db, name, key)(element);

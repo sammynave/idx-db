@@ -1,6 +1,6 @@
 import { defer } from "../../async-utils.js";
 
-export function equals(db, storeName, key) {
+function equals(db, storeName, key) {
   return function (value) {
     const { promise, resolve, reject } = defer("find");
     const transaction = db.transaction(storeName, "readonly");
@@ -29,3 +29,5 @@ export function equals(db, storeName, key) {
     return promise;
   };
 }
+
+export default (db, name, key, element) => equals(db._db, name, key)(element);

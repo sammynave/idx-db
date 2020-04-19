@@ -1,6 +1,6 @@
 import { defer } from "../async-utils.js";
 
-export function destroy(db, storeName) {
+function destroy(db, storeName) {
   // add support for bulk destroy?
   // element or [element]
   // maybe .where('title').contains('butt').destroy()
@@ -22,3 +22,5 @@ export function destroy(db, storeName) {
     return promise;
   };
 }
+
+export default (db, name, element) => destroy(db._db, name)(element);

@@ -1,6 +1,6 @@
 import { defer } from "../async-utils.js";
 
-export function find(db, storeName) {
+function find(db, storeName) {
   return async function (id) {
     const { promise, resolve, reject } = defer("find");
     const transaction = db.transaction(storeName, "readonly");
@@ -20,3 +20,5 @@ export function find(db, storeName) {
     return promise;
   };
 }
+
+export default (db, name, element) => find(db._db, name)(element);

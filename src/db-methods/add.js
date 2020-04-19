@@ -1,6 +1,6 @@
 import { defer } from "../async-utils.js";
 
-export function add(db, storeName) {
+function add(db, storeName) {
   return async function (element) {
     const { promise, resolve, reject } = defer("add");
     const transaction = db.transaction(storeName, "readwrite");
@@ -20,3 +20,5 @@ export function add(db, storeName) {
     return promise;
   };
 }
+
+export default (db, name, element) => add(db._db, name)(element);

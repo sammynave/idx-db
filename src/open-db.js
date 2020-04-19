@@ -8,7 +8,7 @@ function wrap(db) {
 }
 
 // openDb({ name: 'app', structure })
-export async function openDb({ name, structure, newVersionCallback }) {
+export default async function openDb({ name, structure, newVersionCallback }) {
   const { promise, resolve, reject } = defer("open-db");
   const currentVersion = findMaxKey({ arr: structure, key: "version" });
   const request = window.indexedDB.open(name, currentVersion);

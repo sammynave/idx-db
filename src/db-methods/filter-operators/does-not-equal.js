@@ -5,7 +5,7 @@ const HIGHEST_CHAR = String.fromCharCode(65535);
 const LOWEST_NUM = -Infinity;
 const HIGHEST_NUM = Infinity;
 
-export function doesNotEqual(db, storeName, key) {
+function doesNotEqual(db, storeName, key) {
   return function (value) {
     // maybe add support for other valid values?
     // boolean, number, string, date, object, array, regexp, undefined and null
@@ -83,3 +83,6 @@ export function doesNotEqual(db, storeName, key) {
     );
   };
 }
+
+export default (db, name, key, element) =>
+  doesNotEqual(db._db, name, key)(element);

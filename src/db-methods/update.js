@@ -1,6 +1,6 @@
 import { defer } from "../async-utils.js";
 
-export function update(db, storeName) {
+function update(db, storeName) {
   return async function (element) {
     const { promise, resolve, reject } = defer("update");
     const transaction = db.transaction(storeName, "readwrite");
@@ -19,3 +19,5 @@ export function update(db, storeName) {
     return promise;
   };
 }
+
+export default (db, name, element) => update(db._db, name)(element);

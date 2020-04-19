@@ -1,6 +1,6 @@
 import { defer } from "../async-utils.js";
 
-export function all(db, storeName) {
+function all(db, storeName) {
   return async function (element) {
     const { promise, resolve, reject } = defer("all");
     const transaction = db.transaction(storeName, "readonly");
@@ -20,3 +20,5 @@ export function all(db, storeName) {
     return promise;
   };
 }
+
+export default (db, name, element) => all(db._db, name)(element);

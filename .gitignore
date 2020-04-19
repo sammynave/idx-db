@@ -1,5 +1,7 @@
 node_modules
 test-site/dist
-/index.*js
+cjs
+es
 stats.html
 .size-snapshot.json
+.DS_Store

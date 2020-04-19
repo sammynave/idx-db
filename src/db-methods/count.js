@@ -1,6 +1,6 @@
 import { defer } from "../async-utils.js";
 
-export function count(db, storeName) {
+function count(db, storeName) {
   return async function (id) {
     const { promise, resolve, reject } = defer("count");
     const transaction = db.transaction(storeName, "readonly");
@@ -20,3 +20,5 @@ export function count(db, storeName) {
     return promise;
   };
 }
+
+export default (db, name, element) => count(db._db, name)(element);
