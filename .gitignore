@@ -2,3 +2,4 @@ node_modules
 test-site/dist
 /index.*js
 stats.html
+.size-snapshot.json
