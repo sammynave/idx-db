@@ -1,6 +1,6 @@
 {
   "name": "idx-db",
-  "version": "0.0.17-beta.2",
+  "version": "0.0.18",
   "description": "a wrapper for indexedDB",
   "author": "sammy.nave@gmail.com",
   "license": "MIT",
