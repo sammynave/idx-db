@@ -1,6 +1,6 @@
 {
   "name": "idx-db",
-  "version": "0.0.17-beta",
+  "version": "0.0.17-beta.2",
   "description": "a wrapper for indexedDB",
   "author": "sammy.nave@gmail.com",
   "license": "MIT",
@@ -8,12 +8,6 @@
   "main": "./es/index",
   "module": "./es/index.mjs",
   "sideEffects": false,
-  "exports": {
-    ".": {
-      "import": "./es/index.mjs"
-    },
-    "./es/": "./es/"
-  },
   "files": [
     "es"
   ],
