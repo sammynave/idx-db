@@ -1,5 +1,3 @@
-import { defer } from "./async-utils.js";
-import { findMaxKey, byIdAsc } from "./array-utils.js";
 import { all as _all } from "./db-methods/all.js";
 import { add as _add } from "./db-methods/add.js";
 import { destroy as _destroy } from "./db-methods/destroy.js";
@@ -9,12 +7,6 @@ import { count as _count } from "./db-methods/count.js";
 import { equals } from "./db-methods/filter-operators/equals.js";
 import { doesNotEqual } from "./db-methods/filter-operators/does-not-equal.js";
 import { contains } from "./db-methods/filter-operators/contains.js";
-
-function wrap(db) {
-  const storeNames = [...db.objectStoreNames];
-
-  return { _db: db, stores: storeNames };
-}
 
 export const add = (db, name, element) => _add(db._db, name)(element);
 export const all = (db, name, element) => _all(db._db, name)(element);
@@ -28,49 +20,4 @@ export const whereNotEquals = (db, name, key, element) =>
 export const whereContains = (db, name, key, element) =>
   contains(db._db, name, key)(element);
 export const count = (db, name, element) => _count(db._db, name)(element);
-
-// openDb({ name: 'app', structure })
-export async function openDb({ name, structure, newVersionCallback }) {
-  const { promise, resolve, reject } = defer("open-db");
-  const currentVersion = findMaxKey({ arr: structure, key: "version" });
-  const request = window.indexedDB.open(name, currentVersion);
-
-  function useNewDatabase(db) {
-    db.onversionchange = (event) => {
-      db.close();
-      /*
-       * example callback might notify user that there's a new version
-       * "A new version of this page is ready. Please reload or close this tab!"
-       */
-      newVersionCallback && newVersionCallback();
-    };
-  }
-
-  request.onsuccess = (event) => {
-    const db = event.target.result;
-    useNewDatabase(db);
-    resolve(wrap(db));
-  };
-
-  request.onupgradeneeded = (event) => {
-    const db = event.target.result;
-    const orderedStructure = structure.sort(byIdAsc);
-
-    orderedStructure.forEach(({ version, migration }) => {
-      if (event.oldVersion < version) {
-        migration(event);
-      }
-    });
-
-    useNewDatabase(db);
-    db.onabort = (event) => {
-      console.error(event.target.error);
-    };
-  };
-
-  request.onerror = (event) => {
-    reject({ event, request });
-  };
-
-  return promise;
-}
+export { openDb } from "./open-db";
