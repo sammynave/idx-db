@@ -1,5 +1,8 @@
 import { defer } from "../async-utils.js";
 
+// This could be a lot faster for columns that don't use auto generated keys
+// with auto-incrementing ids bulkAdd 100,000 records ~ 23 seconds
+// with externally managed ids bulkAdd 100,000 records ~ 13 seconds
 function bulkAdd(db, storeName) {
   return async function (elements) {
     const { promise, resolve, reject } = defer("bulk-add");

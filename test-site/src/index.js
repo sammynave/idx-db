@@ -89,6 +89,16 @@ const structure = [
       store.createIndex("number", "number", { unique: false });
     },
   },
+
+  {
+    version: 9,
+    migration(event) {
+      const db = event.target.result;
+      db.createObjectStore("todos-external-key", {
+        keyPath: "id",
+      });
+    },
+  },
 ];
 
 async function init() {
@@ -133,7 +143,7 @@ async function init() {
 
   let ct = 0;
   let items = [];
-  while (ct < 10000) {
+  while (ct < 100000) {
     items.push({ title: "num", done: false, number: ct });
     ct++;
   }
@@ -143,6 +153,19 @@ async function init() {
   const t2 = performance.now();
   console.log(`bulk add 10000 - ${t2 - t1}ms`);
   console.log("bulkAdd", bulkAdd1);
+
+  let ct1 = 0;
+  let items1 = [];
+  while (ct1 < 100000) {
+    items1.push({ id: ct1, title: "num", done: false, number: ct1 });
+    ct1++;
+  }
+
+  const t3 = performance.now();
+  const bulkAdd2 = await bulkAdd(db, "todos-external-key", items1);
+  const t4 = performance.now();
+  console.log(`bulk add 10000 - ${t4 - t3}ms`);
+  console.log("bulkAdd", bulkAdd2);
 
   await add(db, "todos", { title: "num", done: false, number: 0 });
   await add(db, "todos", { title: "num", done: false, number: 1 });
