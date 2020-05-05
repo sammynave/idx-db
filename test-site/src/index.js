@@ -9,6 +9,7 @@ import {
   whereNotEquals,
   whereContains,
   count,
+  bulkAdd,
 } from "../../src/index";
 
 // could this have a nicer API?
@@ -128,6 +129,19 @@ async function init() {
   console.log("add", todo4);
   const whereTodos = await whereEquals(db, "todos", "title", "same name");
   console.log("where.equals", whereTodos);
+
+  let ct = 0;
+  let items = [];
+  while (ct < 100000) {
+    items.push({ title: "num", done: false, number: ct });
+    ct++;
+  }
+
+  const t1 = performance.now();
+  const bulkAdd1 = await bulkAdd(db, "todos", items);
+  const t2 = performance.now();
+  console.log(`bulk add 10000 - ${t2 - t1}ms`);
+  console.log("bulkAdd", bulkAdd1);
 
   await add(db, "todos", { title: "num", done: false, number: 0 });
   await add(db, "todos", { title: "num", done: false, number: 1 });

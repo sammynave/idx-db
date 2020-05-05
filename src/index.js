@@ -7,4 +7,5 @@ export { default as count } from "./db-methods/count.js";
 export { default as whereEquals } from "./db-methods/filter-operators/equals.js";
 export { default as whereNotEquals } from "./db-methods/filter-operators/does-not-equal.js";
 export { default as whereContains } from "./db-methods/filter-operators/contains.js";
+export { default as bulkAdd } from "./db-methods/bulk-add.js";
 export { default as openDb } from "./open-db";
