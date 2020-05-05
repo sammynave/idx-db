@@ -92,6 +92,7 @@ const structure = [
 ];
 
 async function init() {
+  await indexedDB.deleteDatabase("appDb");
   const db = await openDb({
     name: "appDb",
     structure,
@@ -132,7 +133,7 @@ async function init() {
 
   let ct = 0;
   let items = [];
-  while (ct < 100000) {
+  while (ct < 10000) {
     items.push({ title: "num", done: false, number: ct });
     ct++;
   }
